@@ -23,13 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
       e.target.classList.contains("btn-danger");
 
       const id = e.target.id;
-      console.log(id);
 
       let row = elem.parentElement.parentElement;
       row.remove();
       removeElementFromLocalStorage(id);
-
-      return window.location.reload();
+      getCartTotal();
+      ui.showConfirmation("Product has been removed from cart", "bg-warning");
     }
   });
 
@@ -47,25 +46,26 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!isNaN(count) && count > 0) {
         updateQuantityInLocalStorage(id, count);
 
-        return window.location.reload();
+        // return window.location.reload();
       } else {
         let storageElement = getElementFromLocalStorage(id);
         e.target.value = storageElement.count;
       }
+      getCartTotal();
     });
   });
 });
 
 function getCartTotal() {
-  console.log(storageItems);
+  const rows = document.querySelectorAll(".table-row-cart");
   let total = 0;
-  for (let i = 0; i < storageItems.length; i++) {
-    let count = storageItems[i].count;
-
-    let price = storageItems[i].product.price;
-
-    total += parseInt(price * count);
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    const price = parseFloat(row.querySelector(".product-price").innerHTML);
+    const qty = row.querySelector(".quantity-input").value;
+    total += price * qty;
   }
   let totalPrice = document.querySelector("#total-price");
   totalPrice.innerText = total;
+  return total;
 }

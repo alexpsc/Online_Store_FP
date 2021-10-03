@@ -39,16 +39,19 @@ export function addProductsInLocalStorage(product, count) {
 
 export function getCartFromLocalStorage() {
   let keys = Object.keys(localStorage);
+  console.log(keys);
   let storageItems = [];
   for (let value of keys) {
     let storageItem = JSON.parse(localStorage.getItem(value));
     storageItems.push(storageItem);
   }
+  console.log(storageItems);
   return storageItems;
 }
 
 export function updateQuantityInLocalStorage(productId, count) {
   let storageObject = localStorage.getItem(productId);
+
   if (null != storageObject) {
     let storageItem = JSON.parse(storageObject);
     storageItem.count = count;

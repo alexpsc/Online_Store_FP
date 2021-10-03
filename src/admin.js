@@ -22,10 +22,9 @@ const closeModal = function () {
   modal[0].classList.add("hidden");
   modal[1].classList.add("hidden");
   overlay.classList.add("hidden");
-  addProductsToUi();
+  // addProductsToUi();
+  spinner.setAttribute("hidden", "");
   ui.clearFields();
-
-  // window.location.reload();
 };
 
 btnsOpenModal[0].addEventListener("click", openModal);
@@ -56,7 +55,7 @@ const addProductsToUi = function () {
     spinner.setAttribute("hidden", "");
     ui.addProductsAdmin(products);
     deleteProductFromDb();
-    modifyProducts();
+
     console.log("bam");
   });
 
@@ -122,58 +121,62 @@ function addToDb(e) {
   }
 }
 
-function modifyProducts() {
-  const modifyBtns = document.querySelectorAll(".modify-product");
-  modifyBtns.forEach((modifyBtn) => {
-    modifyBtn.addEventListener("click", (e) => {
-      const modalM = document.querySelector(".modal-modify");
-      modalM.classList.remove("hidden");
-      overlay.classList.remove("hidden");
-      btnCloseModal[1].addEventListener("click", closeModal);
+document
+  .getElementById("products-admin")
+  .addEventListener("click", modifyProduct);
 
-      const id = e.target.id;
-      console.log(id);
-      http
-        .getProducts(
-          `https://61439425c5b553001717d012.mockapi.io/articles/${id}`
-        )
-        .then((data) => {
-          console.log(data);
-          const name = document.querySelector("#name-mdf");
-          name.value = data.title;
-          const description = document.querySelector("#description-mdf");
-          description.value = data.description;
-          const url = document.querySelector("#url-mdf");
-          url.value = data.picture;
-          const price = document.querySelector("#price-mdf");
-          price.value = data.price;
-          const qty = document.querySelector("#qty-mdf");
-          qty.value = data.stoc;
+function modifyProduct(e) {
+  const modifyBtn = e.target.classList.contains("modify-product");
 
-          const modify = document.querySelector(".modify");
-          console.log(modify);
-          modify.addEventListener("click", (e) => {
-            e.preventDefault();
-            closeModal();
+  if (modifyBtn) {
+    let id = e.target.id;
+    console.log(id);
 
-            const product = {
-              title: name.value,
-              picture: url.value,
-              price: price.value,
-              description: description.value,
-              stoc: qty.value,
-            };
-            console.log(product);
-            http
-              .put(
-                `https://61439425c5b553001717d012.mockapi.io/articles/${id}`,
-                product
-              )
-              .then(() => {
-                return window.location.reload();
-              });
-          });
+    const modalM = document.querySelector(".modal-modify");
+    modalM.classList.remove("hidden");
+    overlay.classList.remove("hidden");
+    btnCloseModal[1].addEventListener("click", closeModal);
+
+    http
+      .getProducts(`https://61439425c5b553001717d012.mockapi.io/articles/${id}`)
+      .then((data) => {
+        console.log(data);
+        const name = document.querySelector("#name-mdf");
+        name.value = data.title;
+        const description = document.querySelector("#description-mdf");
+        description.value = data.description;
+        const url = document.querySelector("#url-mdf");
+        url.value = data.picture;
+        const price = document.querySelector("#price-mdf");
+        price.value = data.price;
+        const qty = document.querySelector("#qty-mdf");
+        qty.value = data.stoc;
+
+        const modify = document.querySelector(".modify");
+        modify.addEventListener("click", (e) => {
+          e.preventDefault();
+          closeModal();
+
+          const product = {
+            title: name.value,
+            picture: url.value,
+            price: price.value,
+            description: description.value,
+            stoc: qty.value,
+          };
+          console.log(typeof product);
+
+          http
+            .put(
+              `https://61439425c5b553001717d012.mockapi.io/articles/${id}`,
+              product
+            )
+            .then(() => {
+              return window.location.reload();
+            });
         });
-    });
-  });
+      });
+  }
 }
+
+//
