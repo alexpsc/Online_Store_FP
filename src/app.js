@@ -3,14 +3,6 @@ import { ui } from "./ui.js";
 
 const spinner = document.getElementById("spinner");
 
-//toggle bar
-const toggleButton = document.getElementsByClassName("toggle-button")[0];
-const navLinks = document.getElementsByClassName("nav-links")[0];
-
-toggleButton.addEventListener("click", () => {
-  navLinks.classList.toggle("active");
-});
-
 //add products to UI
 document.addEventListener("DOMContentLoaded", addProductsToUi);
 
