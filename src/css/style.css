@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:400,700");
 
 :root {
-  --primaryColor: #361999;
+  --primaryColor: rgb(54, 25, 153);
   --mainWhite: #fff;
   --mainBlack: #222;
   --mainGrey: #ffffffd3;
@@ -496,5 +496,9 @@ a:hover {
   .product-wrapper {
     width: 100%;
     padding: 1rem;
+  }
+
+  .logo {
+    font-size: 1.5rem;
   }
 }

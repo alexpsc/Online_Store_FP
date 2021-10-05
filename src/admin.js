@@ -5,7 +5,6 @@ import { ui } from "./ui.js";
 const modal = document.querySelectorAll(".modal-adm");
 const overlay = document.querySelector(".overlay");
 const btnCloseModal = document.querySelectorAll(".btn--close-modal");
-
 const btnsOpenModal = document.querySelectorAll(".btn--show-modal");
 const addProductToDb = document.querySelector(".submit");
 const msgModal = document.querySelector(".hidden-msg-modal");
@@ -121,6 +120,7 @@ function addToDb(e) {
   }
 }
 
+//modify existing product from db
 document
   .getElementById("products-admin")
   .addEventListener("click", modifyProduct);
